@@ -4,6 +4,7 @@ import {
 } from "../constants/withdrawAddress";
 import {QueryClientImpl} from "cosmjs-types/cosmos/distribution/v1beta1/query";
 import transactions from "../utils/transactions";
+import * as Sentry from "@sentry/browser";
 
 export const fetchAddressSuccess = (address) => {
     return {
@@ -30,6 +31,9 @@ export const fetchWithdrawAddress = (address) => {
                 dispatch(fetchAddressSuccess(res.withdrawAddress));
             }
         }).catch((error) => {
+            Sentry.captureException(error.response
+                ? error.response.data.message
+                : error.message);
             dispatch(fetchAddressError(error.response
                 ? error.response.data.message
                 : error.message));

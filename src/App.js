@@ -11,6 +11,9 @@ import config from "./config";
 import icon_white from "./assets/images/icon_white.svg";
 import {useTranslation} from "react-i18next";
 import KeplerWallet from "./utils/kepler";
+import * as Sentry from "@sentry/react";
+import { Integrations } from "@sentry/tracing";
+
 const App = () => {
     const {t} = useTranslation();
     const history = useHistory();
@@ -62,6 +65,16 @@ const App = () => {
                 console.log(err.message);
             });
         }
+    });
+
+    Sentry.init({
+        dsn: "https://ca49f60d0cbd495bb9e7c4de765611ad@o1057883.ingest.sentry.io/6044970",
+        integrations: [new Integrations.BrowserTracing()],
+
+        // Set tracesSampleRate to 1.0 to capture 100%
+        // of transactions for performance monitoring.
+        // We recommend adjusting this value in production
+        tracesSampleRate: 1.0,
     });
     return (
         <>

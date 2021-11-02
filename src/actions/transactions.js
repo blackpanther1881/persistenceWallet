@@ -17,6 +17,7 @@ const vestingTx = require("cosmjs-types/cosmos/vesting/v1beta1/tx");
 const tx_7 = require("cosmjs-types/ibc/core/channel/v1/tx");
 import transactions from "../utils/transactions";
 import helper from "../utils/helper";
+import * as Sentry from "@sentry/browser";
 
 export const fetchTransactionsProgress = () => {
     return {
@@ -85,8 +86,11 @@ export const fetchTransactions = (address, limit, pageNumber) => {
             let txnsResponseList = txData;
             dispatch(fetchPageNumberSuccess(pageNumber, txSearch.totalCount));
             dispatch(fetchTransactionsSuccess(txnsResponseList));
-        }catch (e) {
-            console.log(e.message);
+        }catch (error) {
+            Sentry.captureException(error.response
+                ? error.response.data.message
+                : error.message);
+            console.log(error.message);
         }
     };
 };
@@ -174,8 +178,11 @@ export const fetchReceiveTransactions = (address, limit, pageNumber) => {
             let txnsResponseList = txData;
             dispatch(fetchReceivePageNumberSuccess(pageNumber, txSearch.totalCount));
             dispatch(fetchReceiveTransactionsSuccess(txnsResponseList));
-        } catch (e) {
-            console.log(e.message);
+        } catch (error) {
+            Sentry.captureException(error.response
+                ? error.response.data.message
+                : error.message);
+            console.log(error.message);
         }
     };
 };

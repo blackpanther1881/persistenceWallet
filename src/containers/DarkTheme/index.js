@@ -8,6 +8,7 @@ import Icon from "../../components/Icon";
 const Darktheme = () => {
     const [theme, toggleTheme] = useDarkMode();
     const themeMode = theme === 'light' ? lightTheme : darkTheme;
+    
     return (
         <ThemeProvider theme={themeMode}>
             <GlobalStyles/>

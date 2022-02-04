@@ -16,5 +16,6 @@ const DashboardStaking = () => {
             </div>
         </div>
     );
+    
 };
 export default DashboardStaking;
